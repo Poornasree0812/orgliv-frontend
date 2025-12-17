@@ -1,0 +1,15 @@
+.about-container {
+  padding: 40px;
+  max-width: 800px;
+  margin: auto;
+  line-height: 1.8;
+}
+
+.about-container h1,
+.about-container h2 {
+  color: #2a7a2a;
+}
+
+ul li {
+  margin-bottom: 8px;
+}

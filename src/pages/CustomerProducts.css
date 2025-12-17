@@ -1,0 +1,153 @@
+/* ===============================
+   PAGE BASE
+================================ */
+.products-page {
+  padding: 30px;
+  background: #f5efe6; /* sand */
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #3a5a40; /* deep green */
+  font-size: 32px;
+}
+
+/* ===============================
+   FILTER SECTION
+================================ */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 15px;
+  background: #ede4d4; /* light sand */
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.filters input,
+.filters select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #c9b79c;
+  outline: none;
+  font-size: 14px;
+  background: #fffaf3;
+}
+
+.filters input:focus,
+.filters select:focus {
+  border-color: #3a5a40;
+}
+
+.filter-btn {
+  background: #6b4f3f; /* mud brown */
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.filter-btn:hover {
+  background: #3a5a40; /* green */
+}
+
+/* ===============================
+   STATUS TEXT
+================================ */
+.status-text {
+  text-align: center;
+  color: #6b4f3f;
+  font-size: 16px;
+}
+
+/* ===============================
+   PRODUCTS GRID
+================================ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+/* ===============================
+   PRODUCT CARD
+================================ */
+.product-card {
+  background: #fffaf3;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.15);
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.product-card h3 {
+  font-size: 18px;
+  color: #3a5a40;
+  margin: 8px 0;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #6b4f3f;
+}
+
+.category {
+  font-size: 13px;
+  color: #7a6a58;
+  margin-bottom: 12px;
+  text-transform: capitalize;
+}
+
+/* ===============================
+   ADD TO CART BUTTON
+================================ */
+.add-btn {
+  background: #3a5a40; /* green */
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  background: #2d4734;
+}
+
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+}

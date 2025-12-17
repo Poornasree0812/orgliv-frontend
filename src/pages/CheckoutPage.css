@@ -1,0 +1,92 @@
+.checkout-page {
+  padding: 30px;
+  background: #f5efe6;
+  min-height: 100vh;
+}
+
+.page-title {
+  text-align: center;
+  color: #3a5a40;
+  margin-bottom: 30px;
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+}
+
+/* ---------------- BOXES ---------------- */
+.checkout-box,
+.checkout-summary {
+  background: #fffaf3;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.checkout-box h2,
+.checkout-summary h2 {
+  color: #3a5a40;
+  margin-bottom: 15px;
+}
+
+/* ---------------- INPUTS ---------------- */
+.checkout-box input,
+.checkout-box textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #c9b79c;
+  background: #fff;
+  outline: none;
+}
+
+.checkout-box input:focus,
+.checkout-box textarea:focus {
+  border-color: #3a5a40;
+}
+
+/* ---------------- SUMMARY ---------------- */
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.payment-note {
+  margin: 15px 0;
+  color: #6b4f3f;
+}
+
+/* ---------------- BUTTON ---------------- */
+.place-order-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3a5a40;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.place-order-btn:hover {
+  background: #2d4734;
+}
+
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 768px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,57 @@
+.farmer-profile-container {
+  padding: 40px;
+  text-align: center;
+}
+
+.farmer-card {
+  width: 350px;
+  margin: auto;
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: white;
+}
+
+.farmer-card p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  background: red;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+  padding: 10px 20px;
+  margin: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.edit-btn {
+  background: #007bff;
+}
+
+.save-btn {
+  background: green;
+}
+
+.cancel-btn {
+  background: gray;
+}

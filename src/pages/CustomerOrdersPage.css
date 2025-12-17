@@ -1,0 +1,25 @@
+.orders-container {
+  padding: 20px;
+}
+
+.order-card {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+}
+
+.order-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.order-items ul {
+  padding-left: 20px;
+}
+
+.order-status {
+  font-weight: bold;
+  margin-top: 10px;
+}

@@ -1,0 +1,87 @@
+.home-container {
+  padding-bottom: 40px;
+}
+
+/* HERO */
+.hero-simple {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-simple h1 {
+  font-size: 42px;
+  color: #2f5d3a;
+}
+
+.hero-simple p {
+  max-width: 600px;
+  margin: 15px auto 30px;
+  color: #555;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn {
+  padding: 12px 22px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn.primary {
+  background: #2f5d3a;
+  color: white;
+}
+
+.btn.outline {
+  border: 2px solid #2f5d3a;
+  color: #2f5d3a;
+}
+
+/* SECTIONS */
+.section {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.section h2 {
+  color: #2f5d3a;
+  margin-bottom: 15px;
+}
+
+.section p {
+  color: #444;
+  line-height: 1.6;
+}
+
+.section.muted {
+  background: #f5f1e8;
+}
+
+/* TRUST */
+.trust-list {
+  list-style: none;
+  padding: 0;
+}
+
+.trust-list li {
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* FOR WHOM */
+.for-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.for-grid h4 {
+  margin-bottom: 5px;
+  color: #2f5d3a;
+}

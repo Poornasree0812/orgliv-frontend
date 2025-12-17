@@ -1,0 +1,223 @@
+/* GLOBAL DARK DASHBOARD WRAPPER */
+.dashboard-dark {
+  display: flex;
+  background: #0f0f0f;
+  color: white;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* SIDEBAR */
+.admin-sidebar {
+  width: 260px;
+  background: #1b1b1b;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #2e2e2e;
+}
+
+.admin-brand {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+.admin-nav .nav-btn {
+  width: 100%;
+  padding: 12px;
+  background: #252525;
+  color: #ddd;
+  border: none;
+  margin-bottom: 10px;
+  text-align: left;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-btn.active {
+  background: #3a3a3a;
+  color: white;
+}
+
+.nav-count {
+  background: #444;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #bbb;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* MAIN PANEL */
+.admin-main {
+  flex: 1;
+  padding: 25px;
+}
+
+.admin-header {
+  margin-bottom: 25px;
+}
+
+.admin-header h1 {
+  margin-bottom: 15px;
+}
+
+/* STATS CARDS */
+.admin-stats {
+  display: flex;
+  gap: 15px;
+}
+
+.stat.card {
+  background: #1c1c1c;
+  padding: 15px;
+  border-radius: 8px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.stat-title {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+/* CARDS GRID */
+.cards-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  margin-top: 20px;
+}
+
+.card {
+  background: #1b1b1b;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #2e2e2e;
+}
+
+.pending-card .thumb {
+  width: 100%;
+  border-radius: 8px;
+  height: 150px;
+  object-fit: cover;
+}
+
+/* TABLE */
+.table-wrap {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th,
+.admin-table td {
+  border-bottom: 1px solid #333;
+  padding: 10px;
+}
+
+.admin-table th {
+  color: #bbb;
+  text-align: left;
+}
+
+.table-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* STATUS PILLS */
+.status-pill {
+  padding: 5px 10px;
+  border-radius: 6px;
+  color: black;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-pill.placed {
+  background: #ffe58a;
+}
+
+.status-pill.packed {
+  background: #85e085;
+}
+
+.status-pill.out {
+  background: #7cc8ff;
+}
+
+.status-pill.delivered {
+  background: #86ffab;
+}
+
+/* BUTTONS */
+.btn {
+  background: #3a3a3a;
+  padding: 10px 14px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #555;
+}
+
+.btn.danger {
+  background: #b73535;
+}
+
+.btn.danger:hover {
+  background: #d94343;
+}
+
+/* ORDER CARD */
+.order-card {
+  margin-bottom: 20px;
+}
+
+.order-top {
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.order-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-items ul {
+  padding-left: 20px;
+}
+
+.status-buttons button {
+  margin-right: 8px;
+  margin-top: 10px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

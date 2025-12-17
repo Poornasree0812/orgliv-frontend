@@ -1,0 +1,41 @@
+.profile-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.profile-card {
+  width: 350px;
+  margin: 0 auto;
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: white;
+}
+
+.profile-card h2 {
+  margin-bottom: 10px;
+}
+
+.profile-card p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+.logout-btn {
+  padding: 10px 20px;
+  background: red;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.search-bar {
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid green;
+  font-size: 16px;
+}

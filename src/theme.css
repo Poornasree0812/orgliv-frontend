@@ -1,0 +1,19 @@
+/* ================================
+   ORGLIV GLOBAL THEME (EARTHY)
+================================ */
+
+:root {
+  /* Earthy Colors */
+  --mud-brown: #6B4F3F;
+  --sand: #F3ECDC;
+  --green: #2E7D32;
+  --green-light: #4CAF50;
+
+  /* Text */
+  --text-dark: #2E2E2E;
+  --text-light: #ffffff;
+
+  /* UI */
+  --card-bg: #ffffff;
+  --border-light: #e0e0e0;
+}

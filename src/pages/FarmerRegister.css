@@ -1,0 +1,50 @@
+.farmer-register {
+  max-width: 500px;
+  margin: 60px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.farmer-register h1 {
+  text-align: center;
+  color: #2f5d3a;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6a5a44;
+  margin-bottom: 24px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.register-form input,
+.register-form select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.register-form button {
+  margin-top: 10px;
+  padding: 12px;
+  background: #2f5d3a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.register-form button:hover {
+  background: #244a2f;
+}
