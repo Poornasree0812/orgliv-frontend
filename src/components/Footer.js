@@ -1,44 +1,47 @@
 import React from "react";
 import "./Footer.css";
 
-function Footer() {
+const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer-content">
+      <div className="footer-container">
 
-        <div className="footer-section">
+        <div className="footer-col">
           <h3>OrgLiv</h3>
           <p>
-            Connecting farmers and families through
-            healthy, chemical-free organic food.
+            Fresh food. Honest farming.
+            <br />
+            Supporting farmers & healthy families.
           </p>
         </div>
 
-        <div className="footer-section">
+        <div className="footer-col">
           <h4>Explore</h4>
           <ul>
             <li>Products</li>
             <li>Farmers</li>
-            <li>Organic Promise</li>
+            <li>Orders</li>
+            <li>Cart</li>
           </ul>
         </div>
 
-        <div className="footer-section">
-          <h4>Trust</h4>
+        <div className="footer-col">
+          <h4>Support</h4>
           <ul>
-            <li>Eco-friendly</li>
-            <li>Fair Pricing</li>
-            <li>Direct from Farms</li>
+            <li>Contact</li>
+            <li>Help</li>
+            <li>Privacy Policy</li>
+            <li>Terms</li>
           </ul>
         </div>
 
       </div>
 
       <div className="footer-bottom">
-        © {new Date().getFullYear()} OrgLiv • Harvesting Health, Honoring Farmers
+        © {new Date().getFullYear()} OrgLiv. All rights reserved.
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

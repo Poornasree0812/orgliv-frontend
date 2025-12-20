@@ -19,7 +19,7 @@ function AdminDashboard() {
   });
 
   // -----------------------
-  // EFFECT
+  // EFFECTS
   // -----------------------
   useEffect(() => {
     if (view === "pending") fetchPending();
@@ -35,7 +35,7 @@ function AdminDashboard() {
   }, []);
 
   // -----------------------
-  // API HELPERS
+  // AUTH HEADER
   // -----------------------
   const authHeader = {
     headers: { Authorization: `Bearer ${token}` },
@@ -47,13 +47,9 @@ function AdminDashboard() {
   const fetchPending = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        "/api/admin/products/pending",
-        authHeader
-      );
+      const res = await axios.get("/api/admin/products/pending", authHeader);
       setPendingProducts(res.data || []);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setPendingProducts([]);
     }
     setLoading(false);
@@ -61,33 +57,21 @@ function AdminDashboard() {
 
   const approveProduct = async (id) => {
     if (!window.confirm("Approve this product?")) return;
-    try {
-      await axios.put(
-        `/api/admin/products/approve/${id}`,
-        {},
-        authHeader
-      );
-      fetchPending();
-      fetchStats();
-    } catch (err) {
-      alert("Approve failed");
-    }
+    await axios.put(`/api/admin/products/approve/${id}`, {}, authHeader);
+    fetchPending();
+    fetchStats();
   };
 
   const rejectProduct = async (id) => {
     const reason = prompt("Rejection reason:");
     if (!reason) return;
-    try {
-      await axios.put(
-        `/api/admin/products/reject/${id}`,
-        { reason },
-        authHeader
-      );
-      fetchPending();
-      fetchStats();
-    } catch (err) {
-      alert("Reject failed");
-    }
+    await axios.put(
+      `/api/admin/products/reject/${id}`,
+      { reason },
+      authHeader
+    );
+    fetchPending();
+    fetchStats();
   };
 
   // -----------------------
@@ -96,12 +80,9 @@ function AdminDashboard() {
   const fetchAllProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        "/api/admin/products/all",
-        authHeader
-      );
+      const res = await axios.get("/api/admin/products/all", authHeader);
       setAllProducts(res.data || []);
-    } catch (err) {
+    } catch {
       setAllProducts([]);
     }
     setLoading(false);
@@ -109,16 +90,9 @@ function AdminDashboard() {
 
   const adminDeleteProduct = async (id) => {
     if (!window.confirm("Delete this product permanently?")) return;
-    try {
-      await axios.delete(
-        `/api/admin/products/${id}`,
-        authHeader
-      );
-      fetchAllProducts();
-      fetchStats();
-    } catch (err) {
-      alert("Delete failed");
-    }
+    await axios.delete(`/api/admin/products/${id}`, authHeader);
+    fetchAllProducts();
+    fetchStats();
   };
 
   // -----------------------
@@ -127,28 +101,21 @@ function AdminDashboard() {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        "/api/admin/orders",
-        authHeader
-      );
+      const res = await axios.get("/api/admin/orders", authHeader);
       setOrders(res.data || []);
-    } catch (err) {
+    } catch {
       setOrders([]);
     }
     setLoading(false);
   };
 
   const updateOrderStatus = async (orderId, status) => {
-    try {
-      await axios.put(
-        `/api/admin/orders/update-status/${orderId}`,
-        { status },
-        authHeader
-      );
-      fetchOrders();
-    } catch (err) {
-      alert("Status update failed");
-    }
+    await axios.put(
+      `/api/admin/orders/update-status/${orderId}`,
+      { status },
+      authHeader
+    );
+    fetchOrders();
   };
 
   // -----------------------
@@ -156,31 +123,20 @@ function AdminDashboard() {
   // -----------------------
   const fetchFarmers = async () => {
     try {
-      const res = await axios.get(
-        "/api/admin/farmers",
-        authHeader
-      );
+      const res = await axios.get("/api/admin/farmers", authHeader);
       setFarmers(res.data || []);
-    } catch (err) {
+    } catch {
       setFarmers([]);
     }
   };
 
   const approveFarmer = async (id) => {
-    await axios.put(
-      `/api/admin/farmers/approve/${id}`,
-      {},
-      authHeader
-    );
+    await axios.put(`/api/admin/farmers/approve/${id}`, {}, authHeader);
     fetchFarmers();
   };
 
   const rejectFarmer = async (id) => {
-    await axios.put(
-      `/api/admin/farmers/reject/${id}`,
-      {},
-      authHeader
-    );
+    await axios.put(`/api/admin/farmers/reject/${id}`, {}, authHeader);
     fetchFarmers();
   };
 
@@ -217,6 +173,7 @@ function AdminDashboard() {
   // -----------------------
   return (
     <div className="admin-page dashboard-dark">
+      {/* SIDEBAR */}
       <aside className="admin-sidebar">
         <div className="admin-brand">OrgLiv — Admin</div>
 
@@ -230,9 +187,7 @@ function AdminDashboard() {
           <button onClick={() => setView("orders")}>
             Orders ({stats.totalOrders})
           </button>
-          <button onClick={() => setView("farmers")}>
-            Farmers
-          </button>
+          <button onClick={() => setView("farmers")}>Farmers</button>
           <button
             onClick={() => {
               localStorage.clear();
@@ -244,8 +199,11 @@ function AdminDashboard() {
         </div>
       </aside>
 
+      {/* MAIN */}
       <main className="admin-main">
-        {/* ---------------- PENDING PRODUCTS ---------------- */}
+        {loading && <p>Loading...</p>}
+
+        {/* PENDING PRODUCTS */}
         {view === "pending" && (
           <>
             <h2>Pending Products</h2>
@@ -253,37 +211,56 @@ function AdminDashboard() {
               <div key={p._id} className="card">
                 <h3>{p.name}</h3>
                 <p>{p.category}</p>
-                <p>₹{p.pricePerUnit} / {p.unit}</p>
+                <p>
+                  ₹{p.pricePerUnit} / {p.unit}
+                </p>
                 <p>Farmer: {p.farmerId?.name}</p>
-                <button onClick={() => approveProduct(p._id)}>Approve</button>
-                <button onClick={() => rejectProduct(p._id)}>Reject</button>
+
+                <div className="card-actions">
+                  <button onClick={() => approveProduct(p._id)}>Approve</button>
+                  <button onClick={() => rejectProduct(p._id)}>Reject</button>
+                </div>
               </div>
             ))}
           </>
         )}
 
-        {/* ---------------- ALL PRODUCTS ---------------- */}
+        {/* ALL PRODUCTS */}
         {view === "products" && (
           <>
             <h2>All Products</h2>
             {allProducts.map((p) => (
               <div key={p._id} className="card">
-                <b>{p.name}</b> — {p.isApproved ? "Approved" : "Pending"}
-                <button onClick={() => adminDeleteProduct(p._id)}>Delete</button>
+                <strong>{p.name}</strong> —{" "}
+                {p.isApproved ? "Approved" : "Pending"}
+                <div className="card-actions">
+                  <button onClick={() => adminDeleteProduct(p._id)}>
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </>
         )}
 
-        {/* ---------------- ORDERS ---------------- */}
+        {/* ORDERS */}
         {view === "orders" && (
           <>
             <h2>Orders</h2>
             {orders.map((o) => (
               <div key={o._id} className="card">
-                <div><b>Order:</b> {o._id}</div>
-                <div><b>Total:</b> ₹{o.amount}</div>
-                <div><b>Status:</b> <span className={statusClass(o.status)}>{o.status}</span></div>
+                <div>
+                  <b>Order:</b> {o._id}
+                </div>
+                <div>
+                  <b>Total:</b> ₹{o.amount}
+                </div>
+                <div>
+                  <b>Status:</b>{" "}
+                  <span className={statusClass(o.status)}>
+                    {o.status}
+                  </span>
+                </div>
 
                 <ul>
                   {o.items.map((it, i) => (
@@ -293,27 +270,50 @@ function AdminDashboard() {
                   ))}
                 </ul>
 
-                <button onClick={() => updateOrderStatus(o._id, "pending")}>Pending</button>
-                <button onClick={() => updateOrderStatus(o._id, "packed")}>Packed</button>
-                <button onClick={() => updateOrderStatus(o._id, "out_for_delivery")}>Out</button>
-                <button onClick={() => updateOrderStatus(o._id, "delivered")}>Delivered</button>
+                <div className="card-actions">
+                  <button onClick={() => updateOrderStatus(o._id, "pending")}>
+                    Pending
+                  </button>
+                  <button onClick={() => updateOrderStatus(o._id, "packed")}>
+                    Packed
+                  </button>
+                  <button
+                    onClick={() =>
+                      updateOrderStatus(o._id, "out_for_delivery")
+                    }
+                  >
+                    Out
+                  </button>
+                  <button
+                    onClick={() => updateOrderStatus(o._id, "delivered")}
+                  >
+                    Delivered
+                  </button>
+                </div>
               </div>
             ))}
           </>
         )}
 
-        {/* ---------------- FARMERS ---------------- */}
+        {/* FARMERS */}
         {view === "farmers" && (
           <>
             <h2>Farmers</h2>
             {farmers.map((f) => (
               <div key={f._id} className="card">
-                {f.name} — {f.isVerified ? "Verified" : "Not Verified"}
-                {!f.isVerified ? (
-                  <button onClick={() => approveFarmer(f._id)}>Approve</button>
-                ) : (
-                  <button onClick={() => rejectFarmer(f._id)}>Reject</button>
-                )}
+                {f.name} —{" "}
+                {f.isVerified ? "Verified" : "Not Verified"}
+                <div className="card-actions">
+                  {!f.isVerified ? (
+                    <button onClick={() => approveFarmer(f._id)}>
+                      Approve
+                    </button>
+                  ) : (
+                    <button onClick={() => rejectFarmer(f._id)}>
+                      Reject
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </>

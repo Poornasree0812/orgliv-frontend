@@ -1,0 +1,56 @@
+.orders-grid {
+  display: grid;
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.order-card {
+  background: #1b1b1b;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #2c2c2c;
+}
+
+.order-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.order-id {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.order-date {
+  color: #888;
+}
+
+.order-items h4 {
+  margin-bottom: 6px;
+}
+
+.order-items ul {
+  padding-left: 18px;
+}
+
+.status-buttons {
+  margin-top: 12px;
+}
+
+.status-buttons button {
+  margin-right: 8px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}

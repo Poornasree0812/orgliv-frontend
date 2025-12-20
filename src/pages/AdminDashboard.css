@@ -1,8 +1,8 @@
 /* GLOBAL DARK DASHBOARD WRAPPER */
 .dashboard-dark {
   display: flex;
-  background: #0f0f0f;
-  color: white;
+  background: #0e0e0e;
+  color: #ffffff;
   min-height: 100vh;
   font-family: "Inter", sans-serif;
 }
@@ -10,78 +10,78 @@
 /* SIDEBAR */
 .admin-sidebar {
   width: 260px;
-  background: #1b1b1b;
-  padding: 20px;
+  background: linear-gradient(to bottom, #181818, #121212);
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid #2e2e2e;
+  border-right: 1px solid #2a2a2a;
 }
 
 .admin-brand {
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+  color: #b6e2c4;
 }
 
+/* NAV */
 .admin-nav .nav-btn {
   width: 100%;
-  padding: 12px;
-  background: #252525;
+  padding: 12px 14px;
+  background: #242424;
   color: #ddd;
   border: none;
   margin-bottom: 10px;
   text-align: left;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
+  transition: all 0.25s ease;
+}
+
+.admin-nav .nav-btn:hover {
+  background: #2f2f2f;
 }
 
 .nav-btn.active {
-  background: #3a3a3a;
-  color: white;
+  background: #2f6f4e;
+  color: #ffffff;
 }
 
 .nav-count {
-  background: #444;
+  background: rgba(255, 255, 255, 0.15);
   padding: 2px 8px;
-  border-radius: 6px;
-  font-size: 13px;
-  color: #bbb;
-}
-
-.sidebar-footer {
-  margin-top: auto;
+  border-radius: 10px;
   font-size: 12px;
-  opacity: 0.7;
 }
 
 /* MAIN PANEL */
 .admin-main {
   flex: 1;
-  padding: 25px;
+  padding: 30px;
 }
 
-.admin-header {
+/* HEADER */
+.admin-header h1 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+/* STATS */
+.admin-stats {
+  display: flex;
+  gap: 18px;
   margin-bottom: 25px;
 }
 
-.admin-header h1 {
-  margin-bottom: 15px;
-}
-
-/* STATS CARDS */
-.admin-stats {
-  display: flex;
-  gap: 15px;
-}
-
 .stat.card {
-  background: #1c1c1c;
-  padding: 15px;
-  border-radius: 8px;
-  min-width: 120px;
+  background: linear-gradient(to bottom right, #1e1e1e, #161616);
+  padding: 18px;
+  border-radius: 12px;
+  min-width: 140px;
   text-align: center;
+  border: 1px solid #2a2a2a;
 }
 
 .stat-title {
@@ -90,36 +90,36 @@
 }
 
 .stat-value {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  margin-top: 5px;
+  margin-top: 6px;
+  color: #b6e2c4;
 }
 
 /* CARDS GRID */
 .cards-grid {
   display: grid;
-  gap: 18px;
+  gap: 22px;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .card {
   background: #1b1b1b;
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #2e2e2e;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #2c2c2c;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.pending-card .thumb {
-  width: 100%;
-  border-radius: 8px;
-  height: 150px;
-  object-fit: cover;
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* TABLE */
 .table-wrap {
-  margin-top: 20px;
+  margin-top: 25px;
   overflow-x: auto;
 }
 
@@ -131,58 +131,55 @@
 .admin-table th,
 .admin-table td {
   border-bottom: 1px solid #333;
-  padding: 10px;
+  padding: 12px;
 }
 
 .admin-table th {
-  color: #bbb;
-  text-align: left;
-}
-
-.table-thumb {
-  width: 60px;
-  height: 60px;
-  border-radius: 6px;
-  object-fit: cover;
+  color: #aaa;
+  font-weight: 500;
 }
 
 /* STATUS PILLS */
 .status-pill {
-  padding: 5px 10px;
-  border-radius: 6px;
-  color: black;
+  padding: 6px 12px;
+  border-radius: 12px;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .status-pill.placed {
   background: #ffe58a;
+  color: #333;
 }
 
 .status-pill.packed {
   background: #85e085;
+  color: #1b3b1b;
 }
 
 .status-pill.out {
   background: #7cc8ff;
+  color: #0f2c40;
 }
 
 .status-pill.delivered {
   background: #86ffab;
+  color: #0f3a20;
 }
 
 /* BUTTONS */
 .btn {
-  background: #3a3a3a;
-  padding: 10px 14px;
+  background: #2f6f4e;
+  padding: 9px 14px;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background 0.25s ease;
 }
 
 .btn:hover {
-  background: #555;
+  background: #256043;
 }
 
 .btn.danger {
@@ -195,13 +192,13 @@
 
 /* ORDER CARD */
 .order-card {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .order-top {
   border-bottom: 1px solid #333;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 .order-body {
@@ -216,8 +213,4 @@
 .status-buttons button {
   margin-right: 8px;
   margin-top: 10px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }

@@ -3,12 +3,8 @@ import { CartContext } from "../context/CartContext";
 import "./CartPage.css";
 
 function CartPage() {
-  const { cart, removeFromCart, updateQuantity } = useContext(CartContext);
-
-  const total = cart.reduce(
-    (sum, item) => sum + item.pricePerUnit * item.quantity,
-    0
-  );
+  const { cart, removeFromCart, updateQuantity, totalAmount } =
+    useContext(CartContext);
 
   return (
     <div className="cart-page">
@@ -29,8 +25,9 @@ function CartPage() {
 
                 <div className="cart-details">
                   <h3>{item.name}</h3>
+
                   <p className="price">
-                    ₹{item.pricePerUnit} / {item.unit}
+                    ₹{item.price} / {item.unit || "unit"}
                   </p>
 
                   <div className="qty-row">
@@ -40,18 +37,23 @@ function CartPage() {
                       min="1"
                       value={item.quantity}
                       onChange={(e) =>
-                        updateQuantity(item._id, Number(e.target.value))
+                        updateQuantity(
+                          item._id,
+                          Number(e.target.value)
+                        )
                       }
                     />
                   </div>
 
                   <p className="subtotal">
-                    Subtotal: ₹{item.pricePerUnit * item.quantity}
+                    Subtotal: ₹{item.price * item.quantity}
                   </p>
 
                   <button
                     className="remove-btn"
-                    onClick={() => removeFromCart(item._id)}
+                    onClick={() =>
+                      removeFromCart(item._id)
+                    }
                   >
                     Remove
                   </button>
@@ -71,12 +73,14 @@ function CartPage() {
 
             <div className="summary-row total">
               <span>Total Amount</span>
-              <span>₹{total}</span>
+              <span>₹{totalAmount}</span>
             </div>
 
             <button
               className="checkout-btn"
-              onClick={() => (window.location.href = "/checkout")}
+              onClick={() =>
+                (window.location.href = "/checkout")
+              }
             >
               Proceed to Checkout
             </button>

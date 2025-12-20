@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
-import API from "../api";
+import axios from "axios";
+import "./AdminOrdersPage.css";
 
 function AdminOrdersPage() {
+  const token = localStorage.getItem("token");
   const [orders, setOrders] = useState([]);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [loading, setLoading] = useState(true);
 
+  const authHeader = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  // ------------------------
+  // FETCH ORDERS
+  // ------------------------
   const fetchOrders = async () => {
     try {
-      const res = await API.get("/orders/admin");
-      setOrders(res.data.orders || []);
+      setLoading(true);
+      const res = await axios.get("/api/admin/orders", authHeader);
+      setOrders(res.data || []);
     } catch (err) {
       console.error("Admin Orders Error:", err);
       setOrders([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -19,60 +31,92 @@ function AdminOrdersPage() {
     fetchOrders();
   }, []);
 
-  if (!user || user.role !== "admin") {
-    return <h2 style={{ padding: 20 }}>Please login as Admin.</h2>;
-  }
+  // ------------------------
+  // UPDATE STATUS
+  // ------------------------
+  const updateStatus = async (orderId, status) => {
+    try {
+      await axios.put(
+        `/api/admin/orders/update-status/${orderId}`,
+        { status },
+        authHeader
+      );
+      fetchOrders();
+    } catch {
+      alert("Failed to update status");
+    }
+  };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>All Orders</h1>
+    <div className="admin-orders-page dashboard-dark">
+      <main className="admin-main">
+        <h1>Orders Management</h1>
 
-      {orders.length === 0 ? (
-        <h3>No orders found.</h3>
-      ) : (
-        orders.map((order) => (
-          <div
-            key={order._id}
-            style={{
-              border: "1px solid #ccc",
-              padding: 15,
-              marginBottom: 20,
-            }}
-          >
-            <h3>Order ID: {order._id}</h3>
+        {loading ? (
+          <p>Loading orders...</p>
+        ) : orders.length === 0 ? (
+          <p>No orders found.</p>
+        ) : (
+          <div className="orders-grid">
+            {orders.map((order) => (
+              <div key={order._id} className="order-card">
+                {/* HEADER */}
+                <div className="order-top">
+                  <span className="order-id">#{order._id}</span>
+                  <span className={`status-pill ${order.status}`}>
+                    {order.status}
+                  </span>
+                </div>
 
-            <p>
-              <b>Customer:</b> {order.customer?.name} <br />
-              <b>Email:</b> {order.customer?.email}
-            </p>
+                {/* META */}
+                <div className="order-meta">
+                  <p>
+                    <b>Total:</b> ₹{order.amount}
+                  </p>
+                  <p className="order-date">
+                    {new Date(order.createdAt).toLocaleString()}
+                  </p>
+                </div>
 
-            <h4>Items</h4>
-            <ul>
-              {order.items.map((item, idx) => (
-                <li key={idx}>
-                  {item.product?.name} × {item.quantity} — ₹
-                  {item.price * item.quantity}
-                  <br />
-                  <small>Farmer ID: {item.farmer}</small>
-                </li>
-              ))}
-            </ul>
+                {/* ITEMS */}
+                <div className="order-items">
+                  <h4>Items</h4>
+                  <ul>
+                    {order.items.map((item, i) => (
+                      <li key={i}>
+                        {item.product?.name} × {item.quantity}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            <p>
-              <b>Total Amount:</b> ₹{order.amount}
-            </p>
-
-            <p>
-              <b>Status:</b> {order.status}
-            </p>
-
-            <p>
-              <b>Date:</b>{" "}
-              {new Date(order.createdAt).toLocaleString()}
-            </p>
+                {/* ACTIONS */}
+                <div className="status-buttons">
+                  <button onClick={() => updateStatus(order._id, "pending")}>
+                    Pending
+                  </button>
+                  <button onClick={() => updateStatus(order._id, "packed")}>
+                    Packed
+                  </button>
+                  <button
+                    onClick={() =>
+                      updateStatus(order._id, "out_for_delivery")
+                    }
+                  >
+                    Out
+                  </button>
+                  <button
+                    className="btn"
+                    onClick={() => updateStatus(order._id, "delivered")}
+                  >
+                    Delivered
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))
-      )}
+        )}
+      </main>
     </div>
   );
 }

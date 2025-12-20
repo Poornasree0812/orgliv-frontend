@@ -1,68 +1,81 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { CartContext } from "../context/CartContext";
 import "./ProductDetails.css";
 
 const API_URL = "http://localhost:5000/api/products";
 
-function ProductDetails({ id }) {
+function ProductDetails() {
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [qty, setQty] = useState(1);
-
-  const { addToCart } = useContext(CartContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const productId = window.location.pathname.split("/").pop();
-    fetchProduct(productId);
+    fetchProduct();
+    // eslint-disable-next-line
   }, []);
 
-  const fetchProduct = async (productId) => {
+  const fetchProduct = async () => {
     try {
-      const res = await axios.get(`${API_URL}/${productId}`);
+      const res = await axios.get(`${API_URL}/${id}`);
       setProduct(res.data);
     } catch (err) {
-      console.log("Error loading product:", err);
+      console.error("Product fetch error", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!product) return <h2>Loading...</h2>;
+  if (loading) {
+    return <div className="product-loader">Loading product...</div>;
+  }
+
+  if (!product) {
+    return <div className="product-error">Product not found</div>;
+  }
 
   return (
-    <div className="product-details">
-      <div className="left">
-        <img src={product.imageUrl} alt={product.name} />
-      </div>
-
-      <div className="right">
-        <h1>{product.name}</h1>
-        <p className="category">{product.category}</p>
-
-        <h2 className="price">₹ {product.pricePerUnit} / {product.unit}</h2>
-
-        <p className="desc">{product.description}</p>
-
-        <div className="qty-box">
-          <label>Quantity:</label>
-          <input
-            type="number"
-            value={qty}
-            min="1"
-            onChange={(e) => setQty(Number(e.target.value))}
+    <div className="product-page">
+      <div className="product-card">
+        {/* IMAGE */}
+        <div className="product-image">
+          <img
+            src={product.image || "https://via.placeholder.com/400"}
+            alt={product.name}
           />
         </div>
 
-        <button
-          className="add-cart-btn"
-          onClick={() => addToCart(product, qty)}
-        >
-          Add to Cart
-        </button>
+        {/* DETAILS */}
+        <div className="product-info">
+          <h1>{product.name}</h1>
 
-        <hr />
+          <p className="product-category">
+            Category: <span>{product.category}</span>
+          </p>
 
-        <h3>Farmer Details</h3>
-        <p>Name: {product.farmerId?.name}</p>
-        <p>Phone: {product.farmerId?.phone}</p>
+          <p className="product-price">₹{product.pricePerUnit} / kg</p>
+
+          <p className="product-description">
+            {product.description || "Fresh farm product with assured quality."}
+          </p>
+
+          <div className="product-meta">
+            <div>
+              <strong>Farmer:</strong> {product.farmerName || "Verified Farmer"}
+            </div>
+            <div>
+              <strong>Available:</strong>{" "}
+              {product.stock > 0 ? `${product.stock} kg` : "Out of Stock"}
+            </div>
+          </div>
+
+          <button
+            className="add-to-cart-btn"
+            disabled={product.stock <= 0}
+          >
+            {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -130,25 +130,29 @@ function CustomerProducts() {
                 alt={product.name}
               />
 
-              <h3>{product.name}</h3>
+              <div className="product-info">
+                <h3>{product.name}</h3>
 
-              <p className="price">
-                ₹{product.pricePerUnit} / {product.unit || "kg"}
-              </p>
+                <p className="category">{product.category}</p>
 
-              <p className="category">{product.category}</p>
+                <div className="product-footer">
+                  <span className="price">
+                    ₹{product.pricePerUnit} / {product.unit || "kg"}
+                  </span>
 
-              <button
-                className="add-btn"
-                onClick={() =>
-                  addToCart({
-                    ...product,
-                    price: product.pricePerUnit, // cart compatibility
-                  })
-                }
-              >
-                Add to Cart
-              </button>
+                  <button
+                    className="add-btn"
+                    onClick={() =>
+                      addToCart({
+                        ...product,
+                        price: product.pricePerUnit, // cart compatibility
+                      })
+                    }
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>

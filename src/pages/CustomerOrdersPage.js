@@ -26,47 +26,75 @@ function CustomerOrdersPage() {
     fetchOrders();
   }, []);
 
+  // -------------------------------
+  // FORMAT STATUS (UI ONLY)
+  // -------------------------------
+  const formatStatus = (status) => {
+    if (!status) return "Placed";
+    return status.replace(/_/g, " ");
+  };
+
   return (
     <div className="orders-page">
-      <h1>My Orders</h1>
+      <h1 className="page-title">My Orders 📦</h1>
 
       {loading ? (
-        <p>Loading orders...</p>
+        <p className="loading-text">Loading orders...</p>
       ) : orders.length === 0 ? (
-        <h3>No orders found</h3>
+        <p className="empty-orders">
+          You have not placed any orders yet.
+        </p>
       ) : (
-        orders.map((order) => (
-          <div key={order._id} className="order-card">
-            <h3>Order ID: {order._id}</h3>
+        <div className="orders-list">
+          {orders.map((order) => (
+            <div key={order._id} className="order-card">
+              {/* HEADER */}
+              <div className="order-header">
+                <span className="order-id">
+                  Order ID: {order._id}
+                </span>
+                <span
+                  className={`status ${order.status || "placed"}`}
+                >
+                  {formatStatus(order.status)}
+                </span>
+              </div>
 
-            <p>
-              <b>Total Amount:</b> ₹{order.amount}
-            </p>
+              {/* META */}
+              <div className="order-meta">
+                <p>
+                  <strong>Total Amount:</strong> ₹{order.amount}
+                </p>
+                <p className="order-date">
+                  {new Date(order.createdAt).toLocaleString()}
+                </p>
+              </div>
 
-            <p>
-              <b>Order Date:</b>{" "}
-              {new Date(order.createdAt).toLocaleString()}
-            </p>
+              {/* ITEMS */}
+              <div className="order-items">
+                <h4>Items</h4>
+                {order.items.map((item, i) => (
+                  <div key={i} className="order-item">
+                    <span>
+                      {item.product?.name} × {item.quantity}
+                    </span>
+                    <span>
+                      ₹{item.price * item.quantity}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
-            <h4>Items:</h4>
-            {order.items.map((item, i) => (
-              <p key={i}>
-                {item.product?.name} — {item.quantity} × ₹{item.price}
-              </p>
-            ))}
-
-            <p>
-              <b>Status:</b>{" "}
-              <span className={`status ${order.status}`}>
-                {order.status}
-              </span>
-            </p>
-
-            <p>
-              <b>Payment Method:</b> Cash on Delivery (COD)
-            </p>
-          </div>
-        ))
+              {/* FOOTER */}
+              <div className="order-footer">
+                <p>
+                  <strong>Payment:</strong>{" "}
+                  Cash on Delivery (COD)
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

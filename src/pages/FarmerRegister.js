@@ -1,84 +1,80 @@
 import React, { useState } from "react";
-import "./FarmerRegister.css";
+import axios from "axios";
+import "./FarmerAuth.css";
+
+const API_URL = "http://localhost:5000/api/auth/register";
 
 function FarmerRegister() {
   const [form, setForm] = useState({
     name: "",
-    phone: "",
-    location: "",
-    crops: "",
-    farmingType: "",
+    email: "",
+    password: "",
   });
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    alert(
-      "Thank you! Your details have been recorded. Our team will contact you."
-    );
-    setForm({
-      name: "",
-      phone: "",
-      location: "",
-      crops: "",
-      farmingType: "",
-    });
+
+    if (!form.name || !form.email || !form.password) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await axios.post(API_URL, {
+        ...form,
+        role: "farmer",
+      });
+
+      alert("Registration successful. Wait for admin approval.");
+      window.location.href = "/farmer/login";
+    } catch (err) {
+      alert("Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="farmer-register">
-      <h1>Farmer Registration</h1>
-      <p className="subtitle">
-        Join OrgLiv to sell your produce directly and fairly.
-      </p>
+    <div className="auth-page">
+      <form className="auth-card" onSubmit={handleRegister}>
+        <h2>Farmer Registration 🌱</h2>
 
-      <form onSubmit={handleSubmit} className="register-form">
         <input
-          name="name"
-          placeholder="Farmer Name"
+          type="text"
+          placeholder="Full Name"
           value={form.name}
-          onChange={handleChange}
-          required
+          onChange={(e) =>
+            setForm({ ...form, name: e.target.value })
+          }
         />
 
         <input
-          name="phone"
-          placeholder="Mobile Number"
-          value={form.phone}
-          onChange={handleChange}
-          required
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) =>
+            setForm({ ...form, email: e.target.value })
+          }
         />
 
         <input
-          name="location"
-          placeholder="Village / District"
-          value={form.location}
-          onChange={handleChange}
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) =>
+            setForm({ ...form, password: e.target.value })
+          }
         />
 
-        <input
-          name="crops"
-          placeholder="Crops Grown (eg: Rice, Vegetables)"
-          value={form.crops}
-          onChange={handleChange}
-        />
+        <button disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
 
-        <select
-          name="farmingType"
-          value={form.farmingType}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Farming Type</option>
-          <option value="organic">Organic</option>
-          <option value="non-organic">Non-Organic</option>
-          <option value="transition">Transitioning to Organic</option>
-        </select>
-
-        <button type="submit">Submit Details</button>
+        <p className="auth-link">
+          Already registered? <a href="/farmer/login">Login</a>
+        </p>
       </form>
     </div>
   );

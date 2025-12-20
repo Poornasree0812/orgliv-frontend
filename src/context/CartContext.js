@@ -25,12 +25,28 @@ export const CartProvider = ({ children }) => {
         {
           _id: product._id,
           name: product.name,
-          price: product.price,          // locked price
+          price: product.price, // locked price
           quantity: 1,
           imageUrl: product.imageUrl,
+          unit: product.unit,
         },
       ]);
     }
+  };
+
+  // -------------------------------
+  // UPDATE QUANTITY ✅ (FIX)
+  // -------------------------------
+  const updateQuantity = (id, quantity) => {
+    if (quantity < 1) return;
+
+    setCart(
+      cart.map((item) =>
+        item._id === id
+          ? { ...item, quantity }
+          : item
+      )
+    );
   };
 
   // -------------------------------
@@ -70,6 +86,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cart,
         addToCart,
+        updateQuantity, // ✅ now available
         removeFromCart,
         clearCart,
         totalAmount,

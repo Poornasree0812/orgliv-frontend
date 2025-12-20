@@ -1,22 +1,20 @@
-.orders-page {
+.farmer-orders-page {
   max-width: 1000px;
   margin: auto;
   padding: 40px 20px;
 }
 
 .page-title {
-  margin-bottom: 30px;
   color: #2f6f4e;
+  margin-bottom: 30px;
 }
 
 .loading-text,
-.empty-orders {
+.empty-text {
   text-align: center;
   margin-top: 60px;
-  font-size: 1.1rem;
 }
 
-/* LIST */
 .orders-list {
   display: flex;
   flex-direction: column;
@@ -24,13 +22,12 @@
 }
 
 .order-card {
-  background: #ffffff;
+  background: #fff;
   padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
-/* HEADER */
 .order-header {
   display: flex;
   justify-content: space-between;
@@ -47,39 +44,22 @@
   border-radius: 20px;
   font-size: 0.8rem;
   text-transform: capitalize;
-  background: #e0e0e0;
 }
 
 .status.pending {
   background: #fff3cd;
 }
 
+.status.accepted {
+  background: #d1ecf1;
+}
+
 .status.delivered {
   background: #d4edda;
 }
 
-.status.cancelled {
-  background: #f8d7da;
-}
-
-/* META */
-.order-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 0.95rem;
-}
-
-.order-date {
-  color: #777;
-}
-
-/* ITEMS */
-.order-items {
+.order-section {
   margin-top: 15px;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  padding: 10px 0;
 }
 
 .order-item {
@@ -88,16 +68,8 @@
   margin: 6px 0;
 }
 
-/* FOOTER */
 .order-footer {
-  margin-top: 12px;
-  font-size: 0.9rem;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .order-meta {
-    flex-direction: column;
-    gap: 6px;
-  }
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #777;
 }

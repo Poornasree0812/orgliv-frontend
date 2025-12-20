@@ -1,36 +1,85 @@
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  padding: 18px 10%;
   background: #ffffff;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  border-bottom: 1px solid #e6e6e6;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-.logo a {
-  font-size: 26px;
-  font-weight: bold;
-  color: #2e7d32;
-  text-decoration: none;
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
+/* LOGO */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #2f6f4e;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.nav-logo img {
+  width: 36px;
+  height: 36px;
+}
+
+/* LINKS */
 .nav-links {
   display: flex;
-  gap: 25px;
-  list-style: none;
+  align-items: center;
+  gap: 22px;
 }
 
 .nav-links a {
   text-decoration: none;
-  color: #2f3e2f;
+  color: #333;
   font-weight: 500;
+  padding-bottom: 4px;
+  transition: all 0.25s ease;
 }
 
-.farmer-btn {
-  background: #2e7d32;
-  color: white !important;
+/* HOVER */
+.nav-links a:hover {
+  color: #2f6f4e;
+}
+
+/* ACTIVE */
+.nav-links a.active {
+  color: #2f6f4e;
+  border-bottom: 2px solid #2f6f4e;
+}
+
+/* CTA */
+.nav-cta {
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: 20px;
+  background: #2f6f4e;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.nav-cta:hover {
+  background: #256043;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
 }

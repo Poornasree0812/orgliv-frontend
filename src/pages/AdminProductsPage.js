@@ -1,127 +1,145 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/admin";
+import "./AdminProductsPage.css";
 
 function AdminProductsPage() {
-  const [products, setProducts] = useState([]);
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(true);
 
-  const fetchPendingProducts = async () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("all"); // all | pending | approved
+
+  const authHeader = {
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  // ------------------------
+  // FETCH PRODUCTS
+  // ------------------------
+  const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${API_URL}/products/pending`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProducts(res.data.products || []);
+      setLoading(true);
+      const res = await axios.get("/api/admin/products/all", authHeader);
+      setProducts(res.data || []);
     } catch (err) {
-      console.log("Admin Products Error:", err);
+      console.error("Admin Products Error:", err);
+      setProducts([]);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPendingProducts();
+    fetchProducts();
   }, []);
 
+  // ------------------------
+  // ACTIONS
+  // ------------------------
   const approveProduct = async (id) => {
-    try {
-      await axios.put(
-        `${API_URL}/products/${id}/approve`,
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      // Remove from list after approval
-      setProducts(products.filter((p) => p._id !== id));
-    } catch (err) {
-      console.log("Approval Error:", err);
-      alert("Failed to approve.");
-    }
+    if (!window.confirm("Approve this product?")) return;
+    await axios.put(`/api/admin/products/approve/${id}`, {}, authHeader);
+    fetchProducts();
   };
 
   const rejectProduct = async (id) => {
-    const reason = prompt("Enter rejection reason:");
-
-    try {
-      await axios.put(
-        `${API_URL}/products/${id}/reject`,
-        { reason },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      setProducts(products.filter((p) => p._id !== id));
-    } catch (err) {
-      console.log("Reject Error:", err);
-      alert("Failed to reject.");
-    }
+    const reason = prompt("Rejection reason:");
+    if (!reason) return;
+    await axios.put(
+      `/api/admin/products/reject/${id}`,
+      { reason },
+      authHeader
+    );
+    fetchProducts();
   };
 
-  if (loading) return <h2>Loading...</h2>;
-  if (!token) return <h2>Please login as admin.</h2>;
+  const deleteProduct = async (id) => {
+    if (!window.confirm("Delete product permanently?")) return;
+    await axios.delete(`/api/admin/products/${id}`, authHeader);
+    fetchProducts();
+  };
+
+  // ------------------------
+  // FILTER
+  // ------------------------
+  const filteredProducts = products.filter((p) => {
+    if (filter === "pending") return p.status === "pending";
+    if (filter === "approved") return p.status === "approved";
+    return true;
+  });
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Pending Products for Approval</h1>
+    <div className="admin-products-page dashboard-dark">
+      <main className="admin-main">
+        <h1>Products Management</h1>
 
-      {products.length === 0 ? (
-        <h3>No pending products.</h3>
-      ) : (
-        products.map((product) => (
-          <div
-            key={product._id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "15px",
-              marginBottom: "15px",
-            }}
-          >
-            <h2>{product.title}</h2>
-            <p>
-              Farmer: <strong>{product.farmer?.name}</strong>  
-              <br />
-              Email: {product.farmer?.email}
-            </p>
+        {/* FILTER BAR */}
+        <div className="products-filter">
+          <button onClick={() => setFilter("all")}>All</button>
+          <button onClick={() => setFilter("pending")}>Pending</button>
+          <button onClick={() => setFilter("approved")}>Approved</button>
+        </div>
 
-            <img
-              src={product.images?.[0]?.url || "/placeholder.png"}
-              alt=""
-              style={{ width: "200px", borderRadius: "8px" }}
-            />
+        {loading ? (
+          <p>Loading products...</p>
+        ) : filteredProducts.length === 0 ? (
+          <p>No products found.</p>
+        ) : (
+          <div className="products-grid">
+            {filteredProducts.map((p) => (
+              <div key={p._id} className="product-card">
+                {/* IMAGE */}
+                <img
+                  src={p.imageUrl || "/placeholder.png"}
+                  alt={p.name}
+                  className="product-thumb"
+                />
 
-            <p>{product.description}</p>
-            <p>Price: ₹{product.price}</p>
+                {/* INFO */}
+                <div className="product-info">
+                  <h3>{p.name}</h3>
+                  <p className="category">{p.category}</p>
+                  <p className="price">
+                    ₹{p.pricePerUnit} / {p.unit}
+                  </p>
 
-            <button
-              onClick={() => approveProduct(product._id)}
-              style={{
-                background: "green",
-                color: "white",
-                padding: "8px 12px",
-                marginRight: "10px",
-                border: "none",
-                borderRadius: "5px",
-              }}
-            >
-              Approve
-            </button>
+                  <p className={`status-pill ${p.status}`}>
+                    {p.status}
+                  </p>
 
-            <button
-              onClick={() => rejectProduct(product._id)}
-              style={{
-                background: "red",
-                color: "white",
-                padding: "8px 12px",
-                border: "none",
-                borderRadius: "5px",
-              }}
-            >
-              Reject
-            </button>
+                  <p className="farmer">
+                    Farmer: {p.farmerId?.name || "N/A"}
+                  </p>
+                </div>
+
+                {/* ACTIONS */}
+                <div className="product-actions">
+                  {p.status === "pending" && (
+                    <>
+                      <button onClick={() => approveProduct(p._id)}>
+                        Approve
+                      </button>
+                      <button
+                        className="btn danger"
+                        onClick={() => rejectProduct(p._id)}
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
+
+                  <button
+                    className="btn danger"
+                    onClick={() => deleteProduct(p._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))
-      )}
+        )}
+      </main>
     </div>
   );
 }

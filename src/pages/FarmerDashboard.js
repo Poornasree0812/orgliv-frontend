@@ -1,246 +1,126 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./FarmerDashboard.css";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "http://localhost:5000/api";
 
 function FarmerDashboard() {
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const token = localStorage.getItem("token");
 
-  // -------------------------
-  // STATES
-  // -------------------------
-  const [form, setForm] = useState({
-    name: "",
-    category: "",
-    pricePerUnit: "",
-    unit: "",
-    stockQuantity: "",
-    description: ""
-  });
-
-  const [image, setImage] = useState(null);        // image file
-  const [myProducts, setMyProducts] = useState([]); 
-  const [loading, setLoading] = useState(false);
-
-  // -------------------------
-  // FETCH MY PRODUCTS
-  // -------------------------
   useEffect(() => {
     fetchMyProducts();
+    fetchMyOrders();
+    // eslint-disable-next-line
   }, []);
 
   const fetchMyProducts = async () => {
     try {
-      const res = await axios.get(`${API_URL}/my/products`, {
+      const res = await axios.get(`${API_URL}/products/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setMyProducts(res.data);
+      setProducts(res.data || []);
     } catch (err) {
-      console.log("Error fetching products:", err);
+      console.error("Product fetch error", err);
     }
   };
 
-  // -------------------------
-  // ADD PRODUCT
-  // -------------------------
-  const handleAddProduct = async () => {
-    if (!form.name || !form.category || !form.pricePerUnit || !form.unit || !form.stockQuantity) {
-      return alert("Please fill all fields");
-    }
-
-    if (!image) return alert("Please select an image");
-
-    const fd = new FormData();
-    fd.append("name", form.name);
-    fd.append("category", form.category);
-    fd.append("pricePerUnit", form.pricePerUnit);
-    fd.append("unit", form.unit);
-    fd.append("stockQuantity", form.stockQuantity);
-    fd.append("description", form.description);
-    fd.append("image", image);
-
+  const fetchMyOrders = async () => {
     try {
-      setLoading(true);
-      await axios.post(`${API_URL}/add`, fd, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      alert("Product added successfully!");
-      setForm({
-        name: "",
-        category: "",
-        pricePerUnit: "",
-        unit: "",
-        stockQuantity: "",
-        description: ""
-      });
-      setImage(null);
-
-      fetchMyProducts();
-    } catch (err) {
-      console.log("Add product error:", err);
-      alert("Product add failed!");
-    }
-    setLoading(false);
-  };
-
-  // -------------------------
-  // UPDATE STOCK
-  // -------------------------
-  const updateStock = async (id) => {
-    const qty = prompt("Enter new stock quantity:");
-    if (!qty) return;
-
-    try {
-      await axios.put(
-        `${API_URL}/stock/${id}`,
-        { stockQuantity: qty },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      fetchMyProducts();
-    } catch (err) {
-      console.log("Stock update error:", err);
-      alert("Failed to update stock");
-    }
-  };
-
-  // -------------------------
-  // DELETE PRODUCT
-  // -------------------------
-  const deleteProduct = async (id) => {
-    if (!window.confirm("Delete this product?")) return;
-
-    try {
-      await axios.delete(`${API_URL}/delete/${id}`, {
+      const res = await axios.get(`${API_URL}/orders/farmer`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      fetchMyProducts();
+      setOrders(res.data || []);
     } catch (err) {
-      console.log("Delete error:", err);
-      alert("Failed to delete");
+      console.error("Order fetch error", err);
     }
   };
 
-  // -------------------------
-  // JSX RETURN
-  // -------------------------
+  if (!token) {
+    return <h2 style={{ padding: 40 }}>Please login as Farmer</h2>;
+  }
+
   return (
     <div className="farmer-dashboard">
+      <h1>Farmer Dashboard 🌾</h1>
 
-      <h1>Farmer Dashboard</h1>
+      {/* ===== STATS ===== */}
+      <div className="dashboard-stats">
+        <div className="stat-card">
+          <h2>{products.length}</h2>
+          <p>Total Products</p>
+        </div>
 
-      {/* --------------------------------------------------- */}
-      {/* ADD PRODUCT SECTION */}
-      {/* --------------------------------------------------- */}
-      <div className="add-product-box">
-        <h2>Add New Product</h2>
+        <div className="stat-card">
+          <h2>{orders.length}</h2>
+          <p>Total Orders</p>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Product Name"
-          value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-
-        <select
-          value={form.category}
-          onChange={(e) => setForm({ ...form, category: e.target.value })}
-        >
-          <option value="">Select Category</option>
-          <option>Vegetables</option>
-          <option>Fruits</option>
-          <option>Leafy Greens</option>
-          <option>Grains</option>
-          <option>Pulses</option>
-          <option>Oil Seeds</option>
-          <option>Organic Essentials</option>
-        </select>
-
-        <input
-          type="number"
-          placeholder="Price Per Unit"
-          value={form.pricePerUnit}
-          onChange={(e) => setForm({ ...form, pricePerUnit: e.target.value })}
-        />
-
-        <input
-          type="text"
-          placeholder="Unit (kg, packet, dozens)"
-          value={form.unit}
-          onChange={(e) => setForm({ ...form, unit: e.target.value })}
-        />
-
-        <input
-          type="number"
-          placeholder="Stock Quantity"
-          value={form.stockQuantity}
-          onChange={(e) => setForm({ ...form, stockQuantity: e.target.value })}
-        />
-
-        <textarea
-          placeholder="Description"
-          value={form.description}
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        />
-
-        {/* ------------------ FILE INPUT ------------------ */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-
-        {/* ------------------ IMAGE PREVIEW ------------------ */}
-        {image && (
-          <img
-            src={URL.createObjectURL(image)}
-            alt="preview"
-            className="preview-img"
-          />
-        )}
-
-        <button onClick={handleAddProduct} disabled={loading}>
-          {loading ? "Uploading..." : "Add Product"}
-        </button>
+        <div className="stat-card">
+          <h2>
+            ₹
+            {orders.reduce(
+              (sum, o) =>
+                sum +
+                o.items.reduce(
+                  (s, i) => s + i.price * i.quantity,
+                  0
+                ),
+              0
+            )}
+          </h2>
+          <p>Total Earnings</p>
+        </div>
       </div>
 
-      {/* --------------------------------------------------- */}
-      {/* MY PRODUCTS LIST */}
-      {/* --------------------------------------------------- */}
-      <h2 style={{ marginTop: "40px" }}>My Products</h2>
+      {/* ===== PRODUCTS ===== */}
+      <section className="dashboard-section">
+        <h2>My Products</h2>
 
-      <div className="my-products-grid">
-        {myProducts.map((p) => (
-          <div key={p._id} className="product-card">
-            <img src={p.imageUrl} alt={p.name} />
+        {products.length === 0 ? (
+          <p>No products added yet.</p>
+        ) : (
+          <div className="product-grid">
+            {products.map((p) => (
+              <div key={p._id} className="product-card">
+                <img
+                  src={p.images?.[0]?.url || "/placeholder.png"}
+                  alt={p.name}
+                />
 
-            <h3>{p.name}</h3>
-            <p>{p.category}</p>
-            <p>
-              ₹ {p.pricePerUnit} / {p.unit}
-            </p>
-            <p>Stock: {p.stockQuantity}</p>
-
-            <p>Status:  
-              <span style={{ color: p.isApproved ? "green" : "orange" }}>
-                {p.isApproved ? "Approved" : "Pending"}
-              </span>
-            </p>
-
-            <div className="product-actions">
-              <button onClick={() => updateStock(p._id)}>Update Stock</button>
-              <button className="danger" onClick={() => deleteProduct(p._id)}>
-                Delete
-              </button>
-            </div>
+                <h3>{p.name}</h3>
+                <p>₹{p.pricePerUnit} / kg</p>
+                <p>Stock: {p.stockQuantity}</p>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        )}
+      </section>
 
+      {/* ===== ORDERS ===== */}
+      <section className="dashboard-section">
+        <h2>Recent Orders</h2>
+
+        {orders.length === 0 ? (
+          <p>No orders yet.</p>
+        ) : (
+          orders.map((order) => (
+            <div key={order._id} className="order-card">
+              <p>
+                <strong>Order ID:</strong> {order._id}
+              </p>
+              <p>
+                <strong>Status:</strong> {order.status}
+              </p>
+              <p>
+                <strong>Date:</strong>{" "}
+                {new Date(order.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+          ))
+        )}
+      </section>
     </div>
   );
 }
