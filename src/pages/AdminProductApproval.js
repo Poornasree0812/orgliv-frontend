@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:5000/api/admin/products";
+const API = "https://orgliv-backend.onrender.com/api/admin/products";
 
 export default function AdminProductApproval() {
   const [products, setProducts] = useState([]);

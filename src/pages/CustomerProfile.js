@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./CustomerProducts.css";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "https://orgliv-backend.onrender.com/api/products";
 
 const CATEGORIES = [
   "All",

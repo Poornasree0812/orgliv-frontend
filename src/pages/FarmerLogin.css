@@ -1,0 +1,96 @@
+/* FULL PAGE WRAPPER */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e9f5ee, #f6faf7);
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+/* LOGIN CARD */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  padding: 35px 30px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* TITLE */
+.auth-card h2 {
+  margin-bottom: 25px;
+  color: #2f6f4e;
+  font-size: 1.8rem;
+}
+
+/* INPUTS */
+.auth-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+.auth-card input:focus {
+  border-color: #2f6f4e;
+}
+
+/* BUTTON */
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  background: #2f6f4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.25s ease;
+}
+
+.auth-card button:hover {
+  background: #255a3f;
+}
+
+.auth-card button:disabled {
+  background: #9fc4b2;
+  cursor: not-allowed;
+}
+
+/* REGISTER LINK */
+.auth-link {
+  margin-top: 18px;
+  font-size: 14px;
+  color: #555;
+}
+
+.auth-link a {
+  color: #2f6f4e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 28px 22px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.5rem;
+  }
+}

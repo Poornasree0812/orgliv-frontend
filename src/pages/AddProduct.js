@@ -27,7 +27,7 @@ function AddProduct() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/products/add",
+        "https://orgliv-backend.onrender.com/api/products/add",
         formData,
         {
           headers: {

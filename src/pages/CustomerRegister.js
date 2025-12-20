@@ -6,7 +6,7 @@ function CustomerRegister() {
 
   const handleRegister = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/register", {
+      await axios.post("https://orgliv-backend.onrender.com/api/auth/register", {
         ...form,
         role: "customer",
       });

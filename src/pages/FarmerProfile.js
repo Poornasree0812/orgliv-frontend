@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./FarmerProfile.css";
 
+const API = process.env.REACT_APP_API_URL;
+
 function FarmerProfile() {
   const [farmer, setFarmer] = useState(null);
   const [editMode, setEditMode] = useState(false);
@@ -10,11 +12,12 @@ function FarmerProfile() {
 
   useEffect(() => {
     fetchFarmerProfile();
+    // eslint-disable-next-line
   }, []);
 
   const fetchFarmerProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/me", {
+      const res = await axios.get(`${API}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFarmer(res.data);
@@ -25,8 +28,8 @@ function FarmerProfile() {
 
   const updateProfile = async () => {
     try {
-      const res = await axios.put(
-        "http://localhost:5000/api/auth/update-profile",
+      await axios.put(
+        `${API}/api/auth/update-profile`,
         {
           phone: farmer.phone,
           village: farmer.village,
@@ -40,7 +43,6 @@ function FarmerProfile() {
       alert("Profile updated successfully!");
       setEditMode(false);
     } catch (err) {
-      console.log("Update error:", err);
       alert("Profile update failed.");
     }
   };
@@ -58,39 +60,23 @@ function FarmerProfile() {
         {editMode ? (
           <>
             <input
-              type="text"
               value={farmer.phone || ""}
+              onChange={(e) => setFarmer({ ...farmer, phone: e.target.value })}
               placeholder="Phone"
-              onChange={(e) =>
-                setFarmer({ ...farmer, phone: e.target.value })
-              }
             />
-
             <input
-              type="text"
               value={farmer.village || ""}
+              onChange={(e) => setFarmer({ ...farmer, village: e.target.value })}
               placeholder="Village"
-              onChange={(e) =>
-                setFarmer({ ...farmer, village: e.target.value })
-              }
             />
-
             <input
-              type="text"
               value={farmer.farmName || ""}
+              onChange={(e) => setFarmer({ ...farmer, farmName: e.target.value })}
               placeholder="Farm Name"
-              onChange={(e) =>
-                setFarmer({ ...farmer, farmName: e.target.value })
-              }
             />
 
-            <button className="save-btn" onClick={updateProfile}>
-              Save Changes
-            </button>
-
-            <button className="cancel-btn" onClick={() => setEditMode(false)}>
-              Cancel
-            </button>
+            <button onClick={updateProfile}>Save</button>
+            <button onClick={() => setEditMode(false)}>Cancel</button>
           </>
         ) : (
           <>
@@ -98,16 +84,13 @@ function FarmerProfile() {
             <p><b>Village:</b> {farmer.village || "Not added"}</p>
             <p><b>Farm Name:</b> {farmer.farmName || "Not added"}</p>
 
-            <button className="edit-btn" onClick={() => setEditMode(true)}>
-              Edit Profile
-            </button>
+            <button onClick={() => setEditMode(true)}>Edit Profile</button>
           </>
         )}
 
         <button
-          className="logout-btn"
           onClick={() => {
-            localStorage.removeItem("token");
+            localStorage.clear();
             window.location.href = "/";
           }}
         >

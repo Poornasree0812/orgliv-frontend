@@ -3,7 +3,8 @@ import axios from "axios";
 
 // Base URL (backend)
 const API = axios.create({
-  baseURL: "https://orgliv-backend.onrender.com/api"});
+    baseURL: "https://orgliv-backend.onrender.com/api",
+});
 
 // ----------------------------------
 // REQUEST INTERCEPTOR

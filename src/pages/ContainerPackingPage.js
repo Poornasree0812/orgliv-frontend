@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:5000/api/packing";
+const API_URL = "https://orgliv-backend.onrender.com/api/packing";
 
 export default function ContainerPackingPage() {
   const { containerId } = useParams();

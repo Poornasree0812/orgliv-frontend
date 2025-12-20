@@ -1,0 +1,20 @@
+/* Fallback shared farmer auth styles
+   This file exists ONLY to satisfy imports
+   Do NOT delete unless all imports are removed */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4faf6;
+}
+
+.auth-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}

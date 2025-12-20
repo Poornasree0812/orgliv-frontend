@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./FarmerAuth.css";
 
-const API_URL = "http://localhost:5000/api/auth/register";
+const API_URL = "https://orgliv-backend.onrender.com/api/auth/register";
 
 function FarmerRegister() {
   const [form, setForm] = useState({

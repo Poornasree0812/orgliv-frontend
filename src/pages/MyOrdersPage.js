@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./MyOrdersPage.css";
 
-const API_URL = "http://localhost:5000/api/orders/my";
+const API_URL = "https://orgliv-backend.onrender.com/api/orders/my";
 
 function MyOrdersPage() {
   const [orders, setOrders] = useState([]);

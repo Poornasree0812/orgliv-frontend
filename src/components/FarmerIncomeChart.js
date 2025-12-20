@@ -23,20 +23,26 @@ ChartJS.register(
   Legend
 );
 
+const API = process.env.REACT_APP_API_URL;
+
 function FarmerIncomeChart({ monthsToShow = 6 }) {
   const [labels, setLabels] = useState([]);
   const [dataPoints, setDataPoints] = useState([]);
 
   useEffect(() => {
     fetchMonthlyIncome();
+    // eslint-disable-next-line
   }, []);
 
   const fetchMonthlyIncome = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/farmer/monthly-income", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${API}/api/farmer/monthly-income`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const arr = res.data || [];
       arr.sort((a, b) => (a.month > b.month ? 1 : -1));
@@ -49,22 +55,25 @@ function FarmerIncomeChart({ monthsToShow = 6 }) {
     }
   };
 
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: "Monthly Income (₹)",
-        data: dataPoints,
-        fill: false,
-        borderColor: "green",
-        tension: 0.4,
-      },
-    ],
-  };
-
   return (
     <div className="income-chart-wrapper">
-      {labels.length === 0 ? <p>No data available</p> : <Line data={chartData} />}
+      {labels.length === 0 ? (
+        <p>No data available</p>
+      ) : (
+        <Line
+          data={{
+            labels,
+            datasets: [
+              {
+                label: "Monthly Income (₹)",
+                data: dataPoints,
+                borderColor: "#2f6f4e",
+                tension: 0.4,
+              },
+            ],
+          }}
+        />
+      )}
     </div>
   );
 }

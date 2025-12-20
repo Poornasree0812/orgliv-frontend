@@ -21,7 +21,7 @@ function EditProduct() {
 
   const fetchProduct = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`);
+      const res = await axios.get(`https://orgliv-backend.onrender.com/api/products/${id}`);
       const p = res.data;
 
       setForm({
@@ -42,7 +42,7 @@ function EditProduct() {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/products/update/${id}`,
+        `https://orgliv-backend.onrender.com/api/products/update/${id}`,
         form,
         {
           headers: { Authorization: `Bearer ${token}` },

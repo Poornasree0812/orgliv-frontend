@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./ProductDetails.css";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "https://orgliv-backend.onrender.com/api/products";
 
 function ProductDetails() {
   const { id } = useParams();
