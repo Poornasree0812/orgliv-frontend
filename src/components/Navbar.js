@@ -28,13 +28,13 @@ const Navbar = () => {
             Cart
           </Link>
 
-          <Link to="/customer-login" className={isActive("/customer-login")}>
+          <Link to="/customer/login" className={isActive("/customer/login")}>
             Customer
           </Link>
 
           <Link
-            to="/farmer-login"
-            className={`nav-cta ${isActive("/farmer-login")}`}
+            to="/farmer/login"
+            className={`nav-cta ${isActive("/farmer/login")}`}
           >
             Farmer
           </Link>
